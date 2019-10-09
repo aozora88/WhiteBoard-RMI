@@ -1,27 +1,17 @@
+import java.awt.*;
+import javax.swing.*;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.BasicStroke;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
-
-
 
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
 {
-    JLabel mousePosition;
+    public static JLabel mousePosition;
     public static double[] cord;
-    Graphics g;
-    Graphics2D g2d;
+    public static Graphics g;
+    public static Graphics2D g2d;
+    public static JFrame frame;
     int i;
     //Client funcs;
 
@@ -84,32 +74,67 @@ implements MouseListener, MouseMotionListener
           
     }
 
+    public void open_draw()
+    {
+        frame.add(mousePosition);
+        frame.addMouseListener(this);        // listens for own mouse and
+        frame.addMouseMotionListener(this);  // mouse-motion events
+
+        g = frame.getGraphics();
+        g2d = (Graphics2D) g; 
+        g2d.setPaint(Color.orange); 
+        g2d.setStroke(new BasicStroke (5.0f)); 
+    }
+
     public void start()
     {
-        //ControlImpl funcs = con;
-        //funcs = new Client();
-
         cord = new double[4];
         i = 0;
 
-        mousePosition=new JLabel();
-         addMouseListener( this );        // listens for own mouse and
-          addMouseMotionListener( this );  // mouse-motion events
-          setLayout(null);
-          add(mousePosition);
-          Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-          size.setSize(500, 500);
-          setSize(size );
-          setUndecorated(false);
-          setVisible( true );
-          setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame = new JFrame("Project Whiteboard");
+        JToolBar toolbar = new JToolBar();
+        mousePosition=new JLabel();    
+  
+        JButton btm_criar = new JButton("Criar Quadro");
+        btm_criar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        toolbar.addSeparator();
+        JButton btm_entrar = new JButton("Entrar Quadro");
+        btm_entrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        JButton btm_listarQ = new JButton("Listar Quadros Ativos");
+        btm_listarQ.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        JButton btm_sair = new JButton("Sair Quadro");
+        btm_sair.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
-          g = this.getGraphics();
-          g2d = (Graphics2D) g; 
-          g2d.setPaint(Color.orange); 
-          g2d.setStroke(new BasicStroke (5.0f)); 
+        toolbar.add(btm_criar);
+        toolbar.add(btm_entrar);
+        toolbar.add(btm_listarQ);
+        toolbar.add(btm_sair);
 
-
+        frame.getContentPane().add(toolbar, BorderLayout.NORTH);
+         
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        size.setSize(500, 500);
+        frame.setSize(size );
+        frame.setUndecorated(false);
+        frame.setVisible( true );
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          
     }
 
 }
