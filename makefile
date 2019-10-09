@@ -1,5 +1,7 @@
 make:
-	javac MouseTracker.java
-	javac Client.java
-	javac Server.java
+	javac Control.java
 	javac ControlImpl.java
+	javac Client.java
+	javac MouseTracker.java
+	javac Server.java
+	
