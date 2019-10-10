@@ -85,20 +85,75 @@ implements MouseListener, MouseMotionListener
         g2d.setStroke(new BasicStroke (5.0f)); 
     }
 
+    public void sairQuadro_form()
+    {
+        JFrame f= new JFrame("Form sair quadro");  
+        JTextField tf1=new JTextField("nome do quadro");  
+        tf1.setBounds(80,50,300,20);
+        JTextField tf2=new JTextField("nome de usuario");  
+        tf2.setBounds(80,80,300,20);  
+        JButton b1=new JButton("Submit");  
+        b1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String resp = Client.call_sairQuadro(tf1.getText(), tf2.getText());
+                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+        b1.setBounds(180,200,100,30);      
+        f.add(tf1);f.add(b1);f.add(tf2);
+        f.setSize(500,500);  
+        f.setLayout(null);  
+        f.setVisible(true);  
+    }
+
+    public void listarQuadro()
+    {
+       
+        String resp = Client.call_listarQuadro();
+        JOptionPane.showMessageDialog(null, resp,"Lista de quadros ativos", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public void entrarQuadro_form()
+    {
+
+        JFrame f= new JFrame("Form entrar quadro");  
+        JTextField tf1=new JTextField("nome do quadro");  
+        tf1.setBounds(80,50,300,20);
+        JTextField tf2=new JTextField("nome de usuario");  
+        tf2.setBounds(80,80,300,20);  
+        JButton b1=new JButton("Submit");  
+        b1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
+                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
+                open_draw();
+            }
+        });
+        b1.setBounds(180,200,100,30);      
+        f.add(tf1);f.add(b1);f.add(tf2);
+        f.setSize(500,500);  
+        f.setLayout(null);  
+        f.setVisible(true);  
+    }
+
     public void criarQuadro_form()
     {
         JFrame f= new JFrame("Form criar quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
-        tf1.setBounds(50,50,150,20);
+        tf1.setBounds(80,50,300,20);
         JTextField tf2=new JTextField("nome de usuario");  
-        tf2.setBounds(50,80,150,20);  
+        tf2.setBounds(80,80,300,20);  
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(null, "Your message goes here!","Message", JOptionPane.INFORMATION_MESSAGE);
+                String resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
+                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
+                open_draw();
             }
         });
-        b1.setBounds(50,200,100,30);      
+        b1.setBounds(180,200,100,30);      
         f.add(tf1);f.add(b1);f.add(tf2);
         f.setSize(500,500);  
         f.setLayout(null);  
@@ -113,30 +168,37 @@ implements MouseListener, MouseMotionListener
         frame = new JFrame("Project Whiteboard");
         JToolBar toolbar = new JToolBar();
         mousePosition=new JLabel();    
-  
+
         JButton btm_criar = new JButton("Criar Quadro");
+        JButton btm_entrar = new JButton("Entrar Quadro");
         btm_criar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                btm_criar.setEnabled(false);
+                btm_entrar.setEnabled(false);
                 criarQuadro_form();
             }
         });
         toolbar.addSeparator();
-        JButton btm_entrar = new JButton("Entrar Quadro");
+
+        
         btm_entrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                btm_criar.setEnabled(false);
+                btm_entrar.setEnabled(false);
+                entrarQuadro_form();
             }
         });
+
         JButton btm_listarQ = new JButton("Listar Quadros Ativos");
         btm_listarQ.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                listarQuadro();
             }
         });
         JButton btm_sair = new JButton("Sair Quadro");
         btm_sair.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                sairQuadro_form();
             }
         });
 
