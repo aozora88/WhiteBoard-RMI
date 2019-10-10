@@ -13,7 +13,6 @@ implements MouseListener, MouseMotionListener
     public static Graphics2D g2d;
     public static JFrame frame;
     int i;
-    //Client funcs;
 
     public void comp()
     {
@@ -86,6 +85,26 @@ implements MouseListener, MouseMotionListener
         g2d.setStroke(new BasicStroke (5.0f)); 
     }
 
+    public void criarQuadro_form()
+    {
+        JFrame f= new JFrame("Form criar quadro");  
+        JTextField tf1=new JTextField("nome do quadro");  
+        tf1.setBounds(50,50,150,20);
+        JTextField tf2=new JTextField("nome de usuario");  
+        tf2.setBounds(50,80,150,20);  
+        JButton b1=new JButton("Submit");  
+        b1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //JOptionPane.showMessageDialog(null, "Your message goes here!","Message", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        b1.setBounds(50,200,100,30);      
+        f.add(tf1);f.add(b1);f.add(tf2);
+        f.setSize(500,500);  
+        f.setLayout(null);  
+        f.setVisible(true);  
+    }
+
     public void start()
     {
         cord = new double[4];
@@ -98,7 +117,7 @@ implements MouseListener, MouseMotionListener
         JButton btm_criar = new JButton("Criar Quadro");
         btm_criar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                criarQuadro_form();
             }
         });
         toolbar.addSeparator();

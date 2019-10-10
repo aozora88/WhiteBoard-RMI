@@ -8,6 +8,7 @@ public class Client
 {
     //public static ControlImpl con;
     private static Control look_up;
+    public static String IP;
 
     public static double[] send_coord(double x1, double y1, double x2, double y2)
     {
@@ -32,7 +33,7 @@ public class Client
     {
         try{
             //con = new ControlImpl();
-            look_up = (Control) Naming.lookup("rmi://localhost/whiteboard");
+            look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
 
         }
         catch (MalformedURLException murle) { 
@@ -56,6 +57,7 @@ public class Client
     
     public static void main(String[] args)
     {
+        IP = args[0];
         // cria a conexão com o servidor
         openConnection();
 

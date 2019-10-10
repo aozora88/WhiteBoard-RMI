@@ -4,6 +4,7 @@ import java.rmi.Naming;
 public class Server
 {
     public static ControlImpl c;
+    public static String IP;
     // Implement the constructor of the class 
     public Server() 
     { 
@@ -12,7 +13,7 @@ public class Server
              c = new ControlImpl(); 
   
             // Bind the localhost with the service 
-            Naming.rebind("rmi://localhost/whiteboard", c); 
+            Naming.rebind("rmi://"+IP+"/whiteboard", c); 
         } 
         catch (Exception e) { 
             // If any error occur 
@@ -22,6 +23,7 @@ public class Server
 
     public static void main(String args[])
     {
+        IP = args[0];
         new Server();
     }
 }
