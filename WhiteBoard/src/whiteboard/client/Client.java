@@ -1,16 +1,19 @@
-import java.net.MalformedURLException; 
-import java.rmi.Naming; 
-import java.rmi.NotBoundException; 
-import java.rmi.RemoteException; 
+package whiteboard.client;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+
+import whiteboard.server.Control;
+import whiteboard.server.ControlImpl;
+import whiteboard.util.MouseTracker;
+
 import java.rmi.registry.LocateRegistry;
 
-/**
- * INCOMPLETE
- */
-public class Client
-{
-    //public static ControlImpl con;
+public class Client {
+    // public static ControlImpl con;
     private static Control look_up;
     public static String IP;
 

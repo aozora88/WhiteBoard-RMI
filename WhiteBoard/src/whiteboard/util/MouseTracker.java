@@ -1,5 +1,9 @@
+package whiteboard.util;
+
 import java.awt.*;
 import javax.swing.*;
+
+import whiteboard.client.Client;
 
 import java.awt.event.*;
 import java.awt.geom.Line2D;
