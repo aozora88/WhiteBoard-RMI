@@ -14,18 +14,39 @@ implements MouseListener, MouseMotionListener
     public static JFrame frame;
     int i;
 
+    /**
+     * Computa Coordenadas do desenho
+     */
     public void comp()
     {
         double[] resp = Client.send_coord(cord[0], cord[1], cord[2], cord[3]);
         
         g2d.draw(new Line2D.Double(resp[0], resp[1], resp[2], resp[3]));
     }
+    /**
+    * @fn public void comp()
+    * @brief envia o desenho ao servidor, recebe as atualizações do quadro e reproduz
+    * @param null
+    * @return null
+    */
 
+    /**
+     * Desenhar function
+     */
     public void desenhar(){
         g2d.draw(new Line2D.Double(cord[0], cord[1], cord[2], cord[3]));
         comp();
     }
+    /**
+    * @fn public void desenhar()
+    * @brief desenha uma linha entre as coordenadas passadas e chama a função comp
+    * @param null
+    * @return null
+    */
    
+    /**
+     * get event mouse clicked
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         //mousePosition.setText("Mouse clicado na coordenada : ["+e.getX()+","+e.getY()+"]");
@@ -39,7 +60,16 @@ implements MouseListener, MouseMotionListener
             i++;
         }
     }
+    /**
+    * @fn public void mouseClicked(MouseEvent e)
+    * @brief chamada a cada click de mouse na janela, pega as coordenas do click, armazena, e quando o buffer estiver cheio chama o desenhar
+    * @param MouseEvent e - evento do mouse
+    * @return null
+    */
 
+    /**
+     * A seguir a declaração de outros eventos pegos do mouse mas que não são utilizados nessa implementação
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         //mousePosition.setText("Coordenada atual do mouse : ["+e.getX()+","+e.getY()+"]");
@@ -73,6 +103,9 @@ implements MouseListener, MouseMotionListener
           
     }
 
+    /**
+     * habilita janela de desenho
+     */
     public void open_draw()
     {
         frame.add(mousePosition);
@@ -84,7 +117,16 @@ implements MouseListener, MouseMotionListener
         g2d.setPaint(Color.orange); 
         g2d.setStroke(new BasicStroke (5.0f)); 
     }
+    /**
+    * @fn void open_draw()
+    * @brief habilita janela de desenho
+    * @param null
+    * @return null
+    */
 
+    /**
+     * DISCUSS
+     */
     public void sairQuadro_form()
     {
         JFrame f= new JFrame("Form sair quadro");  
@@ -107,6 +149,9 @@ implements MouseListener, MouseMotionListener
         f.setVisible(true);  
     }
 
+    /**
+     * Trigger da função listar quadros ativos
+     */
     public void listarQuadro()
     {
        
@@ -114,7 +159,16 @@ implements MouseListener, MouseMotionListener
         JOptionPane.showMessageDialog(null, resp,"Lista de quadros ativos", JOptionPane.INFORMATION_MESSAGE);
 
     }
+    /**
+    * @fn public void listarQuadro()
+    * @brief retorna uma lista de quadros validos no server
+    * @param null
+    * @return null
+    */
 
+    /**
+     * Formulario de signin de novo usuario no quadro
+     */
     public void entrarQuadro_form()
     {
 
@@ -137,7 +191,16 @@ implements MouseListener, MouseMotionListener
         f.setLayout(null);  
         f.setVisible(true);  
     }
+    /**
+    * @fn public void entrarQuadro_form()
+    * @brief inicia o cadastro um novo usuario no quadro
+    * @param null
+    * @return null
+    */
 
+    /**
+     * Formulario de criação de um novo quadro
+     */
     public void criarQuadro_form()
     {
         JFrame f= new JFrame("Form criar quadro");  
@@ -159,7 +222,16 @@ implements MouseListener, MouseMotionListener
         f.setLayout(null);  
         f.setVisible(true);  
     }
+    /**
+    * @fn public void criarQuadro_form()
+    * @brief pega os dados e inicia o processo de criação de um novo quadro
+    * @param null
+    * @return null
+    */
 
+    /**
+     * Função start da classe
+     */
     public void start()
     {
         cord = new double[4];
@@ -214,8 +286,13 @@ implements MouseListener, MouseMotionListener
         frame.setSize(size );
         frame.setUndecorated(false);
         frame.setVisible( true );
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     }
+    /**
+    * @fn public void start()
+    * @brief cria a tela inicial
+    * @param null
+    * @return null
+    */
 
 }

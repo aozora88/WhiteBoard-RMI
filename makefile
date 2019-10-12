@@ -4,4 +4,5 @@ make:
 	javac Client.java
 	javac MouseTracker.java
 	javac Server.java
+	javac Wbadmin.java
 	

@@ -5,7 +5,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
-
+/**
+ * INCOMPLETE
+ */
 public class Client
 {
     //public static ControlImpl con;
