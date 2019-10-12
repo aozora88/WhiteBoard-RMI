@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import whiteboard.util.Board;
 import whiteboard.util.User;
 import whiteboard.util.Line;
+import java.time.*; 
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
@@ -22,20 +25,6 @@ implements MouseListener, MouseMotionListener
     public static JFrame frame;
     public static User userLogged;
     int i;
-
-    /**
-     * atualiza o quadro
-     */
-    public void comp()
-    {
-        
-    }
-    /**
-    * @fn public void comp()
-    * @brief pega as ultimas atualizações do quadro e exibe
-    * @param null
-    * @return null
-    */
 
     /**
      * Desenhar function
@@ -110,6 +99,29 @@ implements MouseListener, MouseMotionListener
           
     }
 
+    private static Runnable t1 = new Runnable() {
+        public void run() {
+            try{
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    LinkedList<Line> lines =  Client.atualizaBoard(userLogged);
+                    for (Line infos : lines) {
+                        double[] points1 = infos.getPoint1();
+                        double[] points2 = infos.getPoint2();
+                        g2d.draw(new Line2D.Double(points1[0], points1[1], points2[0], points2[1]));
+                    }
+                }
+                }, 1, 1);
+            } catch (Exception e){
+                System.out.println("exception thread");
+            }
+ 
+        }
+    };
+
     /**
      * habilita janela de desenho
      */
@@ -123,6 +135,8 @@ implements MouseListener, MouseMotionListener
         g2d = (Graphics2D) g; 
         g2d.setPaint(Color.orange); 
         g2d.setStroke(new BasicStroke (5.0f)); 
+
+        new Thread(t1).start();
     }
     /**
     * @fn void open_draw()
