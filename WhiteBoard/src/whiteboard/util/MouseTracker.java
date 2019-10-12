@@ -4,9 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import whiteboard.client.Client;
-
+import whiteboard.util.notificationWrapper;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
+import java.util.LinkedList;
+import whiteboard.util.Board;
+import whiteboard.util.User;
+import whiteboard.util.Line;
 
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
@@ -16,20 +20,19 @@ implements MouseListener, MouseMotionListener
     public static Graphics g;
     public static Graphics2D g2d;
     public static JFrame frame;
+    public static User userLogged;
     int i;
 
     /**
-     * Computa Coordenadas do desenho
+     * atualiza o quadro
      */
     public void comp()
     {
-        double[] resp = Client.send_coord(cord[0], cord[1], cord[2], cord[3]);
         
-        g2d.draw(new Line2D.Double(resp[0], resp[1], resp[2], resp[3]));
     }
     /**
     * @fn public void comp()
-    * @brief envia o desenho ao servidor, recebe as atualizações do quadro e reproduz
+    * @brief pega as ultimas atualizações do quadro e exibe
     * @param null
     * @return null
     */
@@ -39,11 +42,11 @@ implements MouseListener, MouseMotionListener
      */
     public void desenhar(){
         g2d.draw(new Line2D.Double(cord[0], cord[1], cord[2], cord[3]));
-        comp();
+        Client.send_coord(userLogged, cord[0], cord[1], cord[2], cord[3]);
     }
     /**
     * @fn public void desenhar()
-    * @brief desenha uma linha entre as coordenadas passadas e chama a função comp
+    * @brief desenha uma linha entre as coordenadas passadas e envia ao servidor
     * @param null
     * @return null
     */
@@ -128,9 +131,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * DISCUSS
-     */
     public void sairQuadro_form()
     {
         JFrame f= new JFrame("Form sair quadro");  
@@ -141,9 +141,11 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String resp = Client.call_sairQuadro(tf1.getText(), tf2.getText());
-                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                notificationWrapper resp = Client.call_sairQuadro(userLogged);
+                JOptionPane.showMessageDialog(null, resp.getMessage,"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.getResult()){
+                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                }
             }
         });
         b1.setBounds(180,200,100,30);      
@@ -173,9 +175,9 @@ implements MouseListener, MouseMotionListener
     /**
      * Formulario de signin de novo usuario no quadro
      */
-    public void entrarQuadro_form()
+    public int entrarQuadro_form()
     {
-
+        int status = 0;
         JFrame f= new JFrame("Form entrar quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
         tf1.setBounds(80,50,300,20);
@@ -184,16 +186,21 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
-                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
-                open_draw();
+                notificationWrapper resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
+                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.getResult()){
+                    open_draw();
+                    userLogged = resp.getData();
+                }
+                status = resp.getResult();
             }
         });
         b1.setBounds(180,200,100,30);      
         f.add(tf1);f.add(b1);f.add(tf2);
         f.setSize(500,500);  
         f.setLayout(null);  
-        f.setVisible(true);  
+        f.setVisible(true); 
+        return status; 
     }
     /**
     * @fn public void entrarQuadro_form()
@@ -205,8 +212,9 @@ implements MouseListener, MouseMotionListener
     /**
      * Formulario de criação de um novo quadro
      */
-    public void criarQuadro_form()
+    public int criarQuadro_form()
     {
+        int status = 0;
         JFrame f= new JFrame("Form criar quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
         tf1.setBounds(80,50,300,20);
@@ -215,9 +223,13 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
-                JOptionPane.showMessageDialog(null, resp,"Message", JOptionPane.INFORMATION_MESSAGE);
-                open_draw();
+                notificationWrapper resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
+                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.getResult()){
+                    open_draw();
+                    userLogged = resp.getData();
+                }
+                status = resp.getResult();
             }
         });
         b1.setBounds(180,200,100,30);      
@@ -225,6 +237,7 @@ implements MouseListener, MouseMotionListener
         f.setSize(500,500);  
         f.setLayout(null);  
         f.setVisible(true);  
+        return status;
     }
     /**
     * @fn public void criarQuadro_form()
@@ -249,9 +262,10 @@ implements MouseListener, MouseMotionListener
         JButton btm_entrar = new JButton("Entrar Quadro");
         btm_criar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                btm_criar.setEnabled(false);
-                btm_entrar.setEnabled(false);
-                criarQuadro_form();
+                if(criarQuadro_form()){
+                    btm_criar.setEnabled(false);
+                    btm_entrar.setEnabled(false);
+                }
             }
         });
         toolbar.addSeparator();
@@ -259,9 +273,10 @@ implements MouseListener, MouseMotionListener
         
         btm_entrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                btm_criar.setEnabled(false);
-                btm_entrar.setEnabled(false);
-                entrarQuadro_form();
+                if(entrarQuadro_form()){
+                    btm_criar.setEnabled(false);
+                    btm_entrar.setEnabled(false);
+                }
             }
         });
 
