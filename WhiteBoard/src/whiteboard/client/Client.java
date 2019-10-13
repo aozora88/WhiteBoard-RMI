@@ -22,6 +22,7 @@ public class Client {
     public static void changeIP(String newIP)
     {
         IP = newIP;
+        openConnection();
     }
 
     public static String call_listarQuadro()

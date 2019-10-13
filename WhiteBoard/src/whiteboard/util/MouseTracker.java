@@ -148,7 +148,6 @@ implements MouseListener, MouseMotionListener
 
         g = frame.getGraphics();
         g2d = (Graphics2D) g; 
-        g2d.setPaint(Color.orange); 
         g2d.setStroke(new BasicStroke (5.0f)); 
 
         new Thread(t1).start();
