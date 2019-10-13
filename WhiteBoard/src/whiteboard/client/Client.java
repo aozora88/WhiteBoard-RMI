@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import whiteboard.server.Control;
 import whiteboard.util.MouseTracker;
 import java.util.LinkedList;
@@ -12,7 +11,6 @@ import whiteboard.util.Board;
 import whiteboard.util.Line;
 import whiteboard.util.User;
 import whiteboard.util.NotificationWrapper;
-import java.rmi.registry.LocateRegistry;
 
 public class Client {
     // public static ControlImpl con;
@@ -26,12 +24,12 @@ public class Client {
 
     public static String call_listarQuadro()
     {
-        String resp = "- ";
+        String resp = new String("Quadros:\n");
         try{
             LinkedList<Board> lista =  look_up.listBoards();
             for (Board quadro : lista) {
-                resp = resp.concat(quadro.getName());
-                resp = resp.concat("\n- ");
+                resp = resp.concat("- "+quadro.getName());
+                resp = resp.concat("\n");
             }
             return resp;
         }catch(Exception e){
@@ -47,7 +45,7 @@ public class Client {
             resp = look_up.exitBoard(user);
             return resp;
         }catch(Exception e){
-            resp = new NotificationWrapper(false, "erro calling exitBoard");
+            resp = new NotificationWrapper<Void>(false, "erro calling exitBoard");
             return resp;
         }
     }
@@ -59,7 +57,7 @@ public class Client {
             resp = look_up.enterBoard(nome, usu);
             return resp;
         }catch(Exception e){
-            resp = new NotificationWrapper(false, "erro calling enterBoard");
+            resp = new NotificationWrapper<User>(false, "erro calling enterBoard");
             e.printStackTrace();
             return resp;
         }
@@ -77,7 +75,7 @@ public class Client {
 
         }
 
-        resp = new NotificationWrapper(false, "erro calling createBoard");
+        resp = new NotificationWrapper<User>(false, "erro calling createBoard");
         return resp;
     }
 

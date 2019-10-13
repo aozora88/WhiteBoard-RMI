@@ -4,12 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
+import java.util.LinkedList;
 
 import whiteboard.server.Control;
-
-import java.rmi.registry.LocateRegistry;
-
+import whiteboard.util.Board;
+import whiteboard.util.User;
 
 public class Wbadmin
 {
@@ -17,21 +16,10 @@ public class Wbadmin
     private static Control look_up;
     public static String IP;
 
-    /**
-     * INCOMPLETE
-     */
-    public static void openConnection(String args[])
+    public static void openConnection()
     {
         try{
-            //con = new ControlImpl();
-            //System.setProperty( "java.rmi.server.hostname", IP); 
-            //LocateRegistry.createRegistry(8080); 
             look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
-
-            //get data and send args info to server
-
-            //print data
-
         }
         catch (MalformedURLException murle) { 
             System.out.println("\nMalformedURLException: "
@@ -51,13 +39,28 @@ public class Wbadmin
             System.out.println("\nArithmeticException: " + ae); 
         } 
     }
+
+    public static void queryBoards() {
+        try {
+            LinkedList<Board> boards = look_up.listBoards();
+            for(Board board : boards) {
+                System.out.println(board.getName());
+                for(User user : board.getUserList()) {
+                    System.out.println("\t"+user.getNickname());
+                }
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void main(String[] args)
     {
-        IP = args[0];
-        // cria a conexão com o servidor
-        openConnection(args);
-
-        
+        if(args[0].equals("-q"))
+        {
+            IP = args[1];
+            openConnection();
+            queryBoards();
+        }
     }
 }
