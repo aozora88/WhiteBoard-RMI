@@ -6,12 +6,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import whiteboard.server.Control;
-import whiteboard.server.ControlImpl;
 import whiteboard.util.MouseTracker;
 import java.util.LinkedList;
 import whiteboard.util.Board;
+import whiteboard.util.Line;
 import whiteboard.util.User;
-import whiteboard.util.notificationWrapper;
+import whiteboard.util.NotificationWrapper;
 import java.rmi.registry.LocateRegistry;
 
 public class Client {
@@ -35,21 +35,21 @@ public class Client {
         return resp;
     }
 
-    public static notificationWrapper call_sairQuadro(User user)
+    public static NotificationWrapper<Void> call_sairQuadro(User user)
     {
-        notificationWrapper resp = look_up.exitBoard(user);
+        NotificationWrapper<Void> resp = look_up.exitBoard(user);
         return resp;
     }
 
-    public static notificationWrapper call_entrarQuadro(String nome, String usu)
+    public static NotificationWrapper<User> call_entrarQuadro(String nome, String usu)
     {
-        notificationWrapper resp = look_up.enterBoard(nome, usu);
+        NotificationWrapper<User> resp = look_up.enterBoard(nome, usu);
         return resp;
     }
 
-    public static notificationWrapper call_criarQuadro(String nome, String usu)
+    public static NotificationWrapper<User> call_criarQuadro(String nome, String usu)
     {
-        notificationWrapper resp = look_up.createBoard(nome, usu);
+        NotificationWrapper<User> resp = look_up.createBoard(nome, usu);
         return resp;
     }
 
