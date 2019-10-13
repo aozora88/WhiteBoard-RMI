@@ -19,7 +19,7 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
     // Constructor Declaration
     public ControlImpl() throws java.rmi.RemoteException {
         super();
-        userIDs = 0;
+        userIDs = 1;
         name_board = new HashMap<String, Board>();
         userid_board = new HashMap<Integer, Board>();
         bdname_table = new HashMap<>();
