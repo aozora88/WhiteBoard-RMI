@@ -19,4 +19,8 @@ public interface Control extends java.rmi.Remote {
 
     public NotificationWrapper<Void> createLine(User user, double[] point1, double[] point2) throws RemoteException;
     public NotificationWrapper<LinkedList<Line>> getLines(User user) throws RemoteException;
+
+    public boolean containsBoard(String boardName) throws RemoteException;
+    public Board transferBoard(String boardName, String destIP) throws RemoteException;
+    public void receiveBoard(Board board) throws RemoteException;
 } 

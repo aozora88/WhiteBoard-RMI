@@ -10,10 +10,10 @@ public class Server
     public Server() 
     { 
         try { 
-            //System.setProperty( "java.rmi.server.hostname", IP); 
+            //System.setProperty( "java.rmi.server.hostname", IP);
                        
             // Create a object reference for the interface 
-             c = new ControlImpl(); 
+            c = new ControlImpl(); 
   
             // Bind the localhost with the service 
             Naming.rebind("rmi://"+IP+"/whiteboard", c); 

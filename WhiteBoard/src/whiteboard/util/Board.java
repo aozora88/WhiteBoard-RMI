@@ -33,6 +33,13 @@ public class Board implements Serializable{
         this.name = name;
     }
 
+    /**
+     * @return the userList
+     */
+    public LinkedList<User> getUserList() {
+        return userList;
+    }
+
     public boolean insertUser(User user) {
         for(User ituser : userList) {
             if(ituser.equals(user) || ituser.getNickname().equals(user.getNickname())) {
