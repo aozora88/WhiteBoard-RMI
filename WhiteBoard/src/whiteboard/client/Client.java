@@ -5,11 +5,13 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-
 import whiteboard.server.Control;
 import whiteboard.server.ControlImpl;
 import whiteboard.util.MouseTracker;
-
+import java.util.LinkedList;
+import whiteboard.util.Board;
+import whiteboard.util.User;
+import whiteboard.util.notificationWrapper;
 import java.rmi.registry.LocateRegistry;
 
 public class Client {
@@ -19,56 +21,59 @@ public class Client {
 
     public static String call_listarQuadro()
     {
-        //call criar_quadro no ControlImpl
-        
-        return "- q1 \n - q2 \n - q3";
-    }
-
-    public static String call_sairQuadro(String nome, String usu)
-    {
-        //call criar_quadro no ControlImpl
-        System.out.println(nome);
-        System.out.println(usu);
-        
-        return "função sair quadro em produção";
-    }
-
-    public static String call_entrarQuadro(String nome, String usu)
-    {
-        //call criar_quadro no ControlImpl
-        System.out.println(nome);
-        System.out.println(usu);
-        
-        return "função entrar quadro em produção";
-    }
-
-    public static String call_criarQuadro(String nome, String usu)
-    {
-        //call criar_quadro no ControlImpl
-        System.out.println(nome);
-        System.out.println(usu);
-        
-        return "função criar quadro em produção";
-    }
-
-    public static double[] send_coord(double x1, double y1, double x2, double y2)
-    {
-        double[] resp = new double[4];
-        resp[0] = 0;
-        resp[1] = 0;
-        resp[2] = 0;
-        resp[3] = 0;
+        String resp = "- ";
         try{
-            resp = look_up.share_coord(x1, y1, x2, y2);
-            System.out.println("Recebido");
-            System.out.printf("%s %s %s %s%n", resp[0], resp[1], resp[2], resp[3]);
-            System.out.println("Eviado");
-            System.out.printf("%s %s %s %s%n", x1, y1, x2, y2);
-            
-        }catch(Exception e){ System.out.println("error client calling share_coord");}
+            LinkedList<Board> lista =  look_up.listBoards();
+            for (Board quadro : lista) {
+                resp = resp.concat(quadro.getName());
+                resp = resp.concat("\n- ");
+            }
+            return resp;
+        }catch(Exception e){
+            System.out.println("Erro calling function listBoards");
+        }
         return resp;
     }
 
+    public static notificationWrapper call_sairQuadro(User user)
+    {
+        notificationWrapper resp = look_up.exitBoard(user);
+        return resp;
+    }
+
+    public static notificationWrapper call_entrarQuadro(String nome, String usu)
+    {
+        notificationWrapper resp = look_up.enterBoard(nome, usu);
+        return resp;
+    }
+
+    public static notificationWrapper call_criarQuadro(String nome, String usu)
+    {
+        notificationWrapper resp = look_up.createBoard(nome, usu);
+        return resp;
+    }
+
+    public static void send_coord(User user, double x1, double y1, double x2, double y2)
+    {
+        double[] point1 = new double[2];
+        double[] point2 = new double[2];
+
+        point1[0] = x1;
+        point1[1] = y1;
+        point2[0] = x2;
+        point2[1] = y2;
+        try{
+            look_up.createLine(user, point1, point2);
+        }catch(Exception e){ 
+            System.out.println("error client calling createLine");
+        }
+    }
+
+    public static LinkedList<Line> atualizaBoard(User user)
+    {
+        LinkedList<Line> linhas = look_up.getLines(user);
+        return linhas;
+    }
 
     public static void openConnection()
     {
