@@ -26,7 +26,7 @@ implements MouseListener, MouseMotionListener
     public static Graphics2D g2d;
     public static JFrame frame;
     public static User userLogged;
-    boolean status = false;
+    boolean status;
     int i;
 
     /**
@@ -126,8 +126,6 @@ implements MouseListener, MouseMotionListener
                         if((msg.charAt(0) >= '0') && (msg.charAt(0) <= '9')){
                             Client.changeIP(msg);
                             run();
-                        }else{
-                            JOptionPane.showMessageDialog(null, msg,"Atualiza Quadro", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 }
@@ -164,6 +162,12 @@ implements MouseListener, MouseMotionListener
 
     public void sairQuadro_form()
     {
+        NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
+                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.isResult()){
+                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                }
+        /*
         JFrame f= new JFrame("Form sair quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
         tf1.setBounds(80,50,300,20);
@@ -184,7 +188,14 @@ implements MouseListener, MouseMotionListener
         f.setSize(500,500);  
         f.setLayout(null);  
         f.setVisible(true);  
+        */
     }
+    /**
+    * @fn public void sairQuadro_form()
+    * @brief habilita janela de desenho
+    * @param null
+    * @return null
+    */
 
     /**
      * Trigger da função listar quadros ativos
@@ -286,6 +297,7 @@ implements MouseListener, MouseMotionListener
     {
         cord = new double[4];
         i = 0;
+        status = false;
 
         frame = new JFrame("Project Whiteboard");
         JToolBar toolbar = new JToolBar();
