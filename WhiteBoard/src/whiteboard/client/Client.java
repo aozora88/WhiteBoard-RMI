@@ -10,6 +10,7 @@ import whiteboard.server.ControlImpl;
 import whiteboard.util.MouseTracker;
 import java.util.LinkedList;
 import whiteboard.util.Board;
+import whiteboard.util.Line;
 import whiteboard.util.User;
 import whiteboard.util.notificationWrapper;
 import java.rmi.registry.LocateRegistry;

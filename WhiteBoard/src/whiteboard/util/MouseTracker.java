@@ -276,7 +276,7 @@ implements MouseListener, MouseMotionListener
         JButton btm_entrar = new JButton("Entrar Quadro");
         btm_criar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(criarQuadro_form()){
+                if(criarQuadro_form()==1){
                     btm_criar.setEnabled(false);
                     btm_entrar.setEnabled(false);
                 }
@@ -287,7 +287,7 @@ implements MouseListener, MouseMotionListener
         
         btm_entrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(entrarQuadro_form()){
+                if(entrarQuadro_form()==1){
                     btm_criar.setEnabled(false);
                     btm_entrar.setEnabled(false);
                 }
