@@ -28,7 +28,7 @@ public class Server
     public static void main(String args[])
     {
         IP = args[0];
-        System.setProperty( "java.rmi.server.hostname", IP );
+        //System.setProperty( "java.rmi.server.hostname", IP );
         new Server();
     }
 }

@@ -12,7 +12,7 @@
             "type": "java",
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
-            "mainClass": "Client",
+            "mainClass": "whiteboard.client.Client",
             "args": "192.168.15.14"
         }
     ]

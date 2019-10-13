@@ -14,6 +14,7 @@ import whiteboard.util.Line;
 import java.time.*; 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Random;
 
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
@@ -32,6 +33,8 @@ implements MouseListener, MouseMotionListener
      * Desenhar function
      */
     public void desenhar(){
+        int[] cores = userLogged.getColor();
+        g2d.setColor(new Color( cores[0], cores[1], cores[2]));
         g2d.draw(new Line2D.Double(cord[0], cord[1], cord[2], cord[3]));
         Client.send_coord(userLogged, cord[0], cord[1], cord[2], cord[3]);
     }
@@ -114,6 +117,8 @@ implements MouseListener, MouseMotionListener
                         for (Line infos : lines.getData()) {
                             double[] points1 = infos.getPoint1();
                             double[] points2 = infos.getPoint2();
+                            int[] cores = infos.getColor();
+                            g2d.setColor(new Color( cores[0], cores[1], cores[2]));
                             g2d.draw(new Line2D.Double(points1[0], points1[1], points2[0], points2[1]));
                         }
                     }else{
@@ -216,6 +221,8 @@ implements MouseListener, MouseMotionListener
                 if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
+                    Random gerador = new Random();
+                    userLogged.setColor(gerador.nextInt(256), gerador.nextInt(256), gerador.nextInt(256));
                 }
                 status = resp.isResult();
             }
@@ -252,6 +259,8 @@ implements MouseListener, MouseMotionListener
                 if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
+                    Random gerador = new Random();
+                    userLogged.setColor(gerador.nextInt(256), gerador.nextInt(256), gerador.nextInt(256));
                 }
                 status = resp.isResult();
             }
