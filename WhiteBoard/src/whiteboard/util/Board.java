@@ -73,7 +73,9 @@ public class Board implements Serializable{
     public LinkedList<Line> getLines(User user) {
         if(!userList.contains(user))
             return null;
-        return user_line.get(user);
+        LinkedList<Line> lines = new LinkedList<>(user_line.get(user));
+        user_line.get(user).clear();
+        return lines;
     }
 
     public int getUserSize() {

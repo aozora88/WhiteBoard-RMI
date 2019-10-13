@@ -72,6 +72,7 @@ public class Client {
             resp = look_up.createBoard(nome, usu);
             return resp;
         }catch(RemoteException e){
+            e.printStackTrace();
             System.out.println("RemoteException");
 
         }
