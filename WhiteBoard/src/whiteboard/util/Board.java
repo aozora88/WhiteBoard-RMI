@@ -33,9 +33,15 @@ public class Board implements Serializable{
         this.name = name;
     }
 
-    public void insertUser(User user) {
+    public boolean insertUser(User user) {
+        for(User ituser : userList) {
+            if(ituser.equals(user) || ituser.getNickname().equals(user.getNickname())) {
+                return false;
+            }
+        }
         userList.add(user);
         user_line.put(user, new LinkedList<Line>());
+        return true;
     }
 
     public void removeUser(User user) {
@@ -61,5 +67,9 @@ public class Board implements Serializable{
         if(!userList.contains(user))
             return null;
         return user_line.get(user);
+    }
+
+    public int getUserSize() {
+        return userList.size();
     }
 }

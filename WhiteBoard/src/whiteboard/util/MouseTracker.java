@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import whiteboard.client.Client;
-import whiteboard.util.notificationWrapper;
+import whiteboard.util.NotificationWrapper;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
@@ -18,6 +18,7 @@ import java.util.TimerTask;
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
 {
+    private static final long serialVersionUID = 1L;
     public static JLabel mousePosition;
     public static double[] cord;
     public static Graphics g;
@@ -155,9 +156,9 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_sairQuadro(userLogged);
-                JOptionPane.showMessageDialog(null, resp.getMessage,"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
+                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.isResult()){
                     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }
             }
@@ -200,13 +201,13 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
+                NotificationWrapper<User> resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
                 JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
                 }
-                status = resp.getResult();
+                status = resp.isResult();
             }
         });
         b1.setBounds(180,200,100,30);      
@@ -237,13 +238,13 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
+                NotificationWrapper<User> resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
                 JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
                 }
-                status = resp.getResult();
+                status = resp.isResult();
             }
         });
         b1.setBounds(180,200,100,30);      
