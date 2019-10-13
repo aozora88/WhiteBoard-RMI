@@ -60,6 +60,7 @@ public class Client {
             return resp;
         }catch(Exception e){
             resp = new NotificationWrapper(false, "erro calling enterBoard");
+            e.printStackTrace();
             return resp;
         }
     }

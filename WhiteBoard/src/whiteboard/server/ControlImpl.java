@@ -10,8 +10,7 @@ import whiteboard.util.NotificationWrapper;
 import whiteboard.util.User;
 
 public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements Control {
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = -525732855037272824L;
     private int userIDs;
     private HashMap<String, Board> name_board;
     private HashMap<Integer, Board> userid_board;
@@ -20,7 +19,7 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
     // Constructor Declaration
     public ControlImpl() throws java.rmi.RemoteException {
         super();
-        userIDs = 0;
+        userIDs = 1;
         name_board = new HashMap<String, Board>();
         userid_board = new HashMap<Integer, Board>();
         bdname_table = new HashMap<>();
@@ -137,5 +136,37 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
             }
         }
         return new NotificationWrapper<LinkedList<Line>>(true, null, board.getLines(user));
+    }
+
+    @Override
+    public boolean containsBoard(String boardName) throws RemoteException {
+        if(name_board.containsKey(boardName))
+            return true;
+        else return false;
+    }
+
+    @Override
+    public Board transferBoard(String boardName, String destIP) throws RemoteException {
+        Board board = name_board.get(boardName);
+        if (board == null)
+            return null;
+        name_board.remove(board.getName());
+        LinkedList<User> users = board.getUserList();
+        for(User user : users)
+        {
+            userid_board.remove(user.getID());
+            bdname_table.put(user.getID(), destIP);
+        }
+        return board;
+    }
+
+    @Override
+    public void receiveBoard(Board board) throws RemoteException {
+        name_board.put(board.getName(), board);
+        LinkedList<User> users = board.getUserList();
+        for(User user : users)
+        {
+            userid_board.put(user.getID(), board);
+        }
     }
 }
