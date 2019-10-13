@@ -7,7 +7,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 2992711897620589615L;
     private int ID;
     private String nickname;
-    private double[] color;
+    private int[] color;
     
     public User(int ID, String nickname) {
         super();
@@ -15,10 +15,17 @@ public class User implements Serializable {
         this.nickname = nickname;
     }
 
+    public void setColor(int cor1, int cor2, int cor3) {
+        this.color = new int[3];
+        this.color[0] = cor1;
+        this.color[1] = cor2;
+        this.color[2] = cor3;
+    }
+
     /**
      * @return the color
      */
-    public double[] getColor() {
+    public int[] getColor() {
         return color;
     }
 

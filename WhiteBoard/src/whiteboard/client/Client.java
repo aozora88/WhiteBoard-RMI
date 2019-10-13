@@ -16,7 +16,7 @@ import java.rmi.registry.LocateRegistry;
 
 public class Client {
     // public static ControlImpl con;
-    private static Control look_up;
+    public static Control look_up;
     public static String IP;
 
     public static void changeIP(String newIP)
@@ -59,7 +59,7 @@ public class Client {
             resp = look_up.enterBoard(nome, usu);
             return resp;
         }catch(Exception e){
-            resp = new NotificationWrapper(false, "erro calling exitBoard");
+            resp = new NotificationWrapper(false, "erro calling enterBoard");
             return resp;
         }
     }
@@ -70,10 +70,13 @@ public class Client {
         try{
             resp = look_up.createBoard(nome, usu);
             return resp;
-        }catch(Exception e){
-            resp = new NotificationWrapper(false, "erro calling exitBoard");
-            return resp;
+        }catch(RemoteException e){
+            System.out.println("RemoteException");
+
         }
+
+        resp = new NotificationWrapper(false, "erro calling createBoard");
+        return resp;
     }
 
     public static void send_coord(User user, double x1, double y1, double x2, double y2)

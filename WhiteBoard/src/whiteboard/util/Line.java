@@ -8,13 +8,13 @@ public class Line implements Serializable{
     private double[] point1;
     private double[] point2;
     
-    private double[] color;
+    private int[] color;
     
-    public Line(double[] p1, double[] p2, double[] color) {
+    public Line(double[] p1, double[] p2, int[] color) {
         super();
         this.point1 = new double[2];
         this.point2 = new double[2];
-        this.color = new double[3];
+        this.color = new int[3];
         
         this.point1[0] = p1[0];
         this.point1[1] = p1[1];
@@ -43,7 +43,7 @@ public class Line implements Serializable{
     /**
      * @return the color
      */
-    public double[] getColor() {
+    public int[] getColor() {
         return color;
     }
     
@@ -64,7 +64,7 @@ public class Line implements Serializable{
     /**
      * @param color the color to set
      */
-    public void setColor(double[] color) {
+    public void setColor(int[] color) {
         this.color = color;
     }
 }
