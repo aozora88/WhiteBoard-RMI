@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import whiteboard.client.Client;
-import whiteboard.util.notificationWrapper;
+import whiteboard.util.NotificationWrapper;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
@@ -18,12 +18,14 @@ import java.util.TimerTask;
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
 {
+    private static final long serialVersionUID = 1L;
     public static JLabel mousePosition;
     public static double[] cord;
     public static Graphics g;
     public static Graphics2D g2d;
     public static JFrame frame;
     public static User userLogged;
+    boolean status = false;
     int i;
 
     /**
@@ -107,11 +109,21 @@ implements MouseListener, MouseMotionListener
 
                 @Override
                 public void run() {
-                    LinkedList<Line> lines =  Client.atualizaBoard(userLogged);
-                    for (Line infos : lines) {
-                        double[] points1 = infos.getPoint1();
-                        double[] points2 = infos.getPoint2();
-                        g2d.draw(new Line2D.Double(points1[0], points1[1], points2[0], points2[1]));
+                    NotificationWrapper<LinkedList<Line>> lines =  Client.atualizaBoard(userLogged);
+                    if(lines.isResult()){
+                        for (Line infos : lines.getData()) {
+                            double[] points1 = infos.getPoint1();
+                            double[] points2 = infos.getPoint2();
+                            g2d.draw(new Line2D.Double(points1[0], points1[1], points2[0], points2[1]));
+                        }
+                    }else{
+                        String msg = lines.getMessage();
+                        if((msg.charAt(0) >= '0') && (msg.charAt(0) <= '9')){
+                            Client.changeIP(msg);
+                            run();
+                        }else{
+                            JOptionPane.showMessageDialog(null, msg,"Atualiza Quadro", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
                 }, 1, 1);
@@ -155,9 +167,9 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_sairQuadro(userLogged);
-                JOptionPane.showMessageDialog(null, resp.getMessage,"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
+                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
+                if(resp.isResult()){
                     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }
             }
@@ -189,9 +201,8 @@ implements MouseListener, MouseMotionListener
     /**
      * Formulario de signin de novo usuario no quadro
      */
-    public int entrarQuadro_form()
+    public boolean entrarQuadro_form()
     {
-        int status = 0;
         JFrame f= new JFrame("Form entrar quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
         tf1.setBounds(80,50,300,20);
@@ -200,13 +211,13 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
+                NotificationWrapper<User> resp = Client.call_entrarQuadro(tf1.getText(), tf2.getText());
                 JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
                 }
-                status = resp.getResult();
+                status = resp.isResult();
             }
         });
         b1.setBounds(180,200,100,30);      
@@ -226,9 +237,8 @@ implements MouseListener, MouseMotionListener
     /**
      * Formulario de criação de um novo quadro
      */
-    public int criarQuadro_form()
+    public boolean criarQuadro_form()
     {
-        int status = 0;
         JFrame f= new JFrame("Form criar quadro");  
         JTextField tf1=new JTextField("nome do quadro");  
         tf1.setBounds(80,50,300,20);
@@ -237,13 +247,13 @@ implements MouseListener, MouseMotionListener
         JButton b1=new JButton("Submit");  
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                notificationWrapper resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
+                NotificationWrapper<User> resp = Client.call_criarQuadro(tf1.getText(), tf2.getText());
                 JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.getResult()){
+                if(resp.isResult()){
                     open_draw();
                     userLogged = resp.getData();
                 }
-                status = resp.getResult();
+                status = resp.isResult();
             }
         });
         b1.setBounds(180,200,100,30);      
@@ -276,7 +286,7 @@ implements MouseListener, MouseMotionListener
         JButton btm_entrar = new JButton("Entrar Quadro");
         btm_criar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(criarQuadro_form()==1){
+                if(criarQuadro_form()){
                     btm_criar.setEnabled(false);
                     btm_entrar.setEnabled(false);
                 }
@@ -287,7 +297,7 @@ implements MouseListener, MouseMotionListener
         
         btm_entrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(entrarQuadro_form()==1){
+                if(entrarQuadro_form()){
                     btm_criar.setEnabled(false);
                     btm_entrar.setEnabled(false);
                 }
