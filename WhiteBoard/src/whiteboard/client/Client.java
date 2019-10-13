@@ -19,6 +19,11 @@ public class Client {
     private static Control look_up;
     public static String IP;
 
+    public static void changeIP(String newIP)
+    {
+        IP = newIP;
+    }
+
     public static String call_listarQuadro()
     {
         String resp = "- ";
@@ -37,20 +42,38 @@ public class Client {
 
     public static NotificationWrapper<Void> call_sairQuadro(User user)
     {
-        NotificationWrapper<Void> resp = look_up.exitBoard(user);
-        return resp;
+        NotificationWrapper<Void> resp;
+        try{
+            resp = look_up.exitBoard(user);
+            return resp;
+        }catch(Exception e){
+            resp = new NotificationWrapper(false, "erro calling exitBoard");
+            return resp;
+        }
     }
 
     public static NotificationWrapper<User> call_entrarQuadro(String nome, String usu)
     {
-        NotificationWrapper<User> resp = look_up.enterBoard(nome, usu);
-        return resp;
+        NotificationWrapper<User> resp;
+        try{
+            resp = look_up.enterBoard(nome, usu);
+            return resp;
+        }catch(Exception e){
+            resp = new NotificationWrapper(false, "erro calling exitBoard");
+            return resp;
+        }
     }
 
     public static NotificationWrapper<User> call_criarQuadro(String nome, String usu)
     {
-        NotificationWrapper<User> resp = look_up.createBoard(nome, usu);
-        return resp;
+        NotificationWrapper<User> resp;
+        try{
+            resp = look_up.createBoard(nome, usu);
+            return resp;
+        }catch(Exception e){
+            resp = new NotificationWrapper(false, "erro calling exitBoard");
+            return resp;
+        }
     }
 
     public static void send_coord(User user, double x1, double y1, double x2, double y2)
@@ -69,10 +92,14 @@ public class Client {
         }
     }
 
-    public static LinkedList<Line> atualizaBoard(User user)
+    public static NotificationWrapper<LinkedList<Line>> atualizaBoard(User user)
     {
-        LinkedList<Line> linhas = look_up.getLines(user);
-        return linhas;
+        try{
+            NotificationWrapper<LinkedList<Line>> linhas = look_up.getLines(user);
+            return linhas;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public static void openConnection()

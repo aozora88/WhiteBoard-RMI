@@ -2,9 +2,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Server",
+            "request": "launch",
+            "mainClass": "whiteboard.server.Server",
+            "projectName": "WhiteBoard",
+	        "args": "192.168.15.14"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
-            "mainClass": "Client"
+            "mainClass": "Client",
+            "args": "192.168.15.14"
         }
     ]
 }
