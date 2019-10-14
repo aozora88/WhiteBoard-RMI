@@ -2,6 +2,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Wbadmin",
+            "request": "launch",
+            "mainClass": "whiteboard.wbadmin.Wbadmin",
+            "projectName": "WhiteBoard",
+            "args": ["-q","25.0.121.130"]
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
             "mainClass": "whiteboard.client.Client",

@@ -14,12 +14,16 @@ public class Wbadmin
 {
     //public static ControlImpl con;
     private static Control look_up;
+    private static Control look_up2;
     public static String IP;
 
-    public static void openConnection()
+    public static void openConnection(String IP, boolean lk1)
     {
         try{
-            look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
+            if(lk1)
+                look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
+            else
+                look_up2 = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
         }
         catch (MalformedURLException murle) { 
             System.out.println("\nMalformedURLException: "
@@ -53,14 +57,29 @@ public class Wbadmin
             e.printStackTrace();
         }
     }
+
+    public static void transferBoard(String[] args) {
+        openConnection(args[3], false);
+        try {
+            if (look_up.containsBoard(args[2])) {
+                Board board = look_up.transferBoard(args[2], args[3]);
+                look_up2.receiveBoard(board);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void main(String[] args)
     {
+        IP = args[1];
+        openConnection(IP, true);
         if(args[0].equals("-q"))
         {
-            IP = args[1];
-            openConnection();
             queryBoards();
+        } else if(args[0].equals("-t"))
+        {
+            transferBoard(args);
         }
     }
 }
