@@ -9,6 +9,10 @@ import whiteboard.util.Line;
 import whiteboard.util.NotificationWrapper;
 import whiteboard.util.User;
 
+/**
+ * @class ControlImpl
+ * @brief Classe que implementa as funções da interface das funções remotas.
+ */
 public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements Control {
     private static final long serialVersionUID = -525732855037272824L;
     private int userIDs;

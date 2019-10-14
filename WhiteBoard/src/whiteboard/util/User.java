@@ -2,6 +2,10 @@ package whiteboard.util;
 
 import java.io.Serializable;
 
+/**
+ * @class User
+ * @brief Classe responsavel por guardar dados dos clientes.
+ */
 public class User implements Serializable {
 
     private static final long serialVersionUID = 2992711897620589615L;

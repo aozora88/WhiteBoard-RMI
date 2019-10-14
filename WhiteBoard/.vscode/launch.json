@@ -6,7 +6,7 @@
             "request": "launch",
             "mainClass": "whiteboard.wbadmin.Wbadmin",
             "projectName": "WhiteBoard",
-            "args": ["-q","25.0.121.130"]
+            "args": ["-q","25.2.14.20"]
         },
         {
             "type": "java",

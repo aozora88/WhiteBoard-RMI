@@ -17,6 +17,11 @@ public class Wbadmin
     private static Control look_up2;
     public static String IP;
 
+    /**
+     * @brief Abre uma conexão com o IP
+     * @param IP IP de conexão
+     * @param lk1 define se será a conexão 1 ou 2
+     */
     public static void openConnection(String IP, boolean lk1)
     {
         try{
@@ -44,6 +49,9 @@ public class Wbadmin
         } 
     }
 
+    /**
+     * @brief Realiza a função de query para obter dados dos quadros de um servidor.
+     */
     public static void queryBoards() {
         try {
             LinkedList<Board> boards = look_up.listBoards();
@@ -58,6 +66,10 @@ public class Wbadmin
         }
     }
 
+    /**
+     * @brief Realiza a função de transferencia entre dois servidores.
+     * @param args
+     */
     public static void transferBoard(String[] args) {
         openConnection(args[3], false);
         try {

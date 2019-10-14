@@ -2,6 +2,10 @@ package whiteboard.util;
 
 import java.io.Serializable;
 
+/**
+ * @class Line
+ * @brief Classe responsavel por guardar os dados das linhas.
+ */
 public class Line implements Serializable{
     
     private static final long serialVersionUID = -5942674186815854884L;
