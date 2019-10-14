@@ -1,8 +1,6 @@
 package whiteboard.util;
-
 import java.awt.*;
 import javax.swing.*;
-
 import whiteboard.client.Client;
 import whiteboard.util.NotificationWrapper;
 import java.awt.event.*;
@@ -16,9 +14,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
+/**
+ * @file  MouseTracker.java
+ * @brief Arquivo com as funções relacionadas a interface
+*/
+
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
 {
+    /*******************************************************************
+*   GLOBAL VARIABLES
+*******************************************************************/
     private static final long serialVersionUID = 1L;
     public static JLabel mousePosition;
     public static double[] cord;
@@ -28,6 +34,10 @@ implements MouseListener, MouseMotionListener
     public static User userLogged;
     boolean status;
     int i;
+
+/*******************************************************************
+*   IMPLEMENTATION
+*******************************************************************/
 
     /**
      * Desenhar function
@@ -104,6 +114,9 @@ implements MouseListener, MouseMotionListener
           
     }
 
+    /**
+     * Thread atualiza quadro
+     */
     private static Runnable t1 = new Runnable() {
         public void run() {
             try{
@@ -136,6 +149,12 @@ implements MouseListener, MouseMotionListener
  
         }
     };
+    /**
+    * @fn public void mouseClicked(MouseEvent e)
+    * @brief chamada a cada click de mouse na janela, pega as coordenas do click, armazena, e quando o buffer estiver cheio chama o desenhar
+    * @param MouseEvent e - evento do mouse
+    * @return null
+    */
 
     /**
      * habilita janela de desenho
@@ -159,6 +178,9 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
+    /**
+     * função call sair quadro
+     */
     public void sairQuadro_form()
     {
         NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
@@ -166,32 +188,10 @@ implements MouseListener, MouseMotionListener
                 if(resp.isResult()){
                     frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 }
-        /*
-        JFrame f= new JFrame("Form sair quadro");  
-        JTextField tf1=new JTextField("nome do quadro");  
-        tf1.setBounds(80,50,300,20);
-        JTextField tf2=new JTextField("nome de usuario");  
-        tf2.setBounds(80,80,300,20);  
-        JButton b1=new JButton("Submit");  
-        b1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
-                JOptionPane.showMessageDialog(null, resp.getMessage(),"Message", JOptionPane.INFORMATION_MESSAGE);
-                if(resp.isResult()){
-                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                }
-            }
-        });
-        b1.setBounds(180,200,100,30);      
-        f.add(tf1);f.add(b1);f.add(tf2);
-        f.setSize(500,500);  
-        f.setLayout(null);  
-        f.setVisible(true);  
-        */
     }
     /**
     * @fn public void sairQuadro_form()
-    * @brief habilita janela de desenho
+    * @brief sai do quadro e fecha janela
     * @param null
     * @return null
     */
