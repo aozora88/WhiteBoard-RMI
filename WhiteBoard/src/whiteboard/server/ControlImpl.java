@@ -44,7 +44,7 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
         board.insertUser(user);
         userIDs += 1;
         // Cria objeto de notificação
-        NotificationWrapper<User> notif = new NotificationWrapper<>(true, null, user);
+        NotificationWrapper<User> notif = new NotificationWrapper<>(true, "Quadro criado", user);
         return notif;
     }
     
@@ -64,7 +64,7 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
         }
         userid_board.put(userIDs, board);
         userIDs += 1;
-        NotificationWrapper<User> notif = new NotificationWrapper<>(true, null, user);
+        NotificationWrapper<User> notif = new NotificationWrapper<>(true, "Entrou no quadro", user);
         return notif;
     }
 
@@ -90,7 +90,7 @@ public class ControlImpl extends java.rmi.server.UnicastRemoteObject implements 
         {
             name_board.remove(board.getName());
         }
-        return new NotificationWrapper<Void>(true, null, null);
+        return new NotificationWrapper<Void>(true, "saiu do quadro", null);
     }
     
     @Override
