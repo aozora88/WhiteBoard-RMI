@@ -1,4 +1,5 @@
 package whiteboard.util;
+
 import java.awt.*;
 import javax.swing.*;
 import whiteboard.client.Client;
@@ -22,7 +23,7 @@ import java.util.Random;
 public class MouseTracker extends JFrame 
 implements MouseListener, MouseMotionListener
 {
-    /*******************************************************************
+/*******************************************************************
 *   GLOBAL VARIABLES
 *******************************************************************/
     private static final long serialVersionUID = 1L;

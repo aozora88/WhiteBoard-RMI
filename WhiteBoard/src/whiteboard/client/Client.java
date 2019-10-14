@@ -14,17 +14,40 @@ import whiteboard.util.User;
 import whiteboard.util.NotificationWrapper;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * @file  Client.java
+ * @brief Arquivo com as funções relacionadas a interface
+*/
+
 public class Client {
-    // public static ControlImpl con;
+/*******************************************************************
+*   GLOBAL VARIABLES
+*******************************************************************/
     public static Control look_up;
     public static String IP;
 
+/*******************************************************************
+*   IMPLEMENTATION
+*******************************************************************/
+
+    /**
+     * funçao change server
+     */
     public static void changeIP(String newIP)
     {
         IP = newIP;
         openConnection();
     }
+    /**
+    * @fn public static void changeIP(String newIP)
+    * @brief muda o ip e reestabelece a conexão com outro server
+    * @param String newIP - novo IP do server
+    * @return null
+    */
 
+    /**
+     * pede a lista de quadros ativos ao server
+     */
     public static String call_listarQuadro()
     {
         String resp = "- ";
