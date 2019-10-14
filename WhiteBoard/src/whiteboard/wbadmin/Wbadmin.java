@@ -4,34 +4,26 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
+import java.util.LinkedList;
 
 import whiteboard.server.Control;
-
-import java.rmi.registry.LocateRegistry;
-
+import whiteboard.util.Board;
+import whiteboard.util.User;
 
 public class Wbadmin
 {
     //public static ControlImpl con;
     private static Control look_up;
+    private static Control look_up2;
     public static String IP;
 
-    /**
-     * INCOMPLETE
-     */
-    public static void openConnection(String args[])
+    public static void openConnection(String IP, boolean lk1)
     {
         try{
-            //con = new ControlImpl();
-            //System.setProperty( "java.rmi.server.hostname", IP); 
-            //LocateRegistry.createRegistry(8080); 
-            look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
-
-            //get data and send args info to server
-
-            //print data
-
+            if(lk1)
+                look_up = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
+            else
+                look_up2 = (Control) Naming.lookup("rmi://"+IP+"/whiteboard");
         }
         catch (MalformedURLException murle) { 
             System.out.println("\nMalformedURLException: "
@@ -51,13 +43,43 @@ public class Wbadmin
             System.out.println("\nArithmeticException: " + ae); 
         } 
     }
+
+    public static void queryBoards() {
+        try {
+            LinkedList<Board> boards = look_up.listBoards();
+            for(Board board : boards) {
+                System.out.println(board.getName());
+                for(User user : board.getUserList()) {
+                    System.out.println("\t"+user.getNickname());
+                }
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void transferBoard(String[] args) {
+        openConnection(args[3], false);
+        try {
+            if (look_up.containsBoard(args[2])) {
+                Board board = look_up.transferBoard(args[2], args[3]);
+                look_up2.receiveBoard(board);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static void main(String[] args)
     {
-        IP = args[0];
-        // cria a conexão com o servidor
-        openConnection(args);
-
-        
+        IP = args[1];
+        openConnection(IP, true);
+        if(args[0].equals("-q"))
+        {
+            queryBoards();
+        } else if(args[0].equals("-t"))
+        {
+            transferBoard(args);
+        }
     }
 }

@@ -2,11 +2,19 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Wbadmin",
+            "request": "launch",
+            "mainClass": "whiteboard.wbadmin.Wbadmin",
+            "projectName": "WhiteBoard",
+            "args": ["-q","25.0.121.130"]
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
             "mainClass": "whiteboard.client.Client",
             "projectName": "WhiteBoard",
-            "args": "192.168.0.106"
+            "args": "25.0.121.130"
         },
         {
             "type": "java",
@@ -14,7 +22,7 @@
             "request": "launch",
             "mainClass": "whiteboard.server.Server",
             "projectName": "WhiteBoard",
-            "args": "192.168.0.106"
+            "args": "25.0.121.130"
         }
     ]
 }

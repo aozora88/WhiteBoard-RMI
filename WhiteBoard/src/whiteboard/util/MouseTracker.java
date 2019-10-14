@@ -7,10 +7,8 @@ import whiteboard.util.NotificationWrapper;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
-import whiteboard.util.Board;
 import whiteboard.util.User;
 import whiteboard.util.Line;
-import java.time.*; 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
@@ -40,9 +38,6 @@ implements MouseListener, MouseMotionListener
 *   IMPLEMENTATION
 *******************************************************************/
 
-    /**
-     * Desenhar function
-     */
     public void desenhar(){
         int[] cores = userLogged.getColor();
         g2d.setColor(new Color( cores[0], cores[1], cores[2]));
@@ -56,9 +51,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
    
-    /**
-     * get event mouse clicked
-     */
     @Override
     public void mouseClicked(MouseEvent e) {
         //mousePosition.setText("Mouse clicado na coordenada : ["+e.getX()+","+e.getY()+"]");
@@ -79,9 +71,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * A seguir a declaração de outros eventos pegos do mouse mas que não são utilizados nessa implementação
-     */
     @Override
     public void mouseReleased(MouseEvent e) {
         //mousePosition.setText("Coordenada atual do mouse : ["+e.getX()+","+e.getY()+"]");
@@ -115,9 +104,6 @@ implements MouseListener, MouseMotionListener
           
     }
 
-    /**
-     * Thread atualiza quadro
-     */
     private static Runnable t1 = new Runnable() {
         public void run() {
             try{
@@ -157,9 +143,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * habilita janela de desenho
-     */
     public void open_draw()
     {
         frame.add(mousePosition);
@@ -179,9 +162,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * função call sair quadro
-     */
     public void sairQuadro_form()
     {
         NotificationWrapper<Void> resp = Client.call_sairQuadro(userLogged);
@@ -197,9 +177,7 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * Trigger da função listar quadros ativos
-     */
+
     public void listarQuadro()
     {
        
@@ -214,9 +192,7 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * Formulario de signin de novo usuario no quadro
-     */
+
     public boolean entrarQuadro_form()
     {
         JFrame f= new JFrame("Form entrar quadro");  
@@ -252,9 +228,7 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * Formulario de criação de um novo quadro
-     */
+
     public boolean criarQuadro_form()
     {
         JFrame f= new JFrame("Form criar quadro");  
@@ -290,9 +264,6 @@ implements MouseListener, MouseMotionListener
     * @return null
     */
 
-    /**
-     * Função start da classe
-     */
     public void start()
     {
         cord = new double[4];
